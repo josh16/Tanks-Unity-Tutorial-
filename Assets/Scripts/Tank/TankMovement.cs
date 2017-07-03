@@ -87,17 +87,24 @@ public class TankMovement : MonoBehaviour
     private void FixedUpdate()
     {
         // Move and turn the tank.
+		Move(); // We want to call these two functions in fixed update for the physics
+		Turn ();
     }
 
 
     private void Move()
     {
         // Adjust the position of the tank based on the player's input.
+		Vector3 movement = transform.forward * m_MovementInputValue * m_Speed *  Time.deltaTime;
+		m_Rigidbody.MovePosition (m_Rigidbody.position + movement); //  Applying the movement to the RigidBody.
     }
 
 
     private void Turn()
     {
         // Adjust the rotation of the tank based on the player's input.
-    }
+		float turn = m_TurnInputValue * m_TurnSpeed * Time.deltaTime;
+		Quaternion turnRotation = Quaternion.Euler (0f, turn, 0f); //This will be rotationg on the Y axis for the tank
+		m_Rigidbody.MoveRotation(m_Rigidbody.rotation * turnRotation); // Applying the rotation to the RigidBody.
+	}
 }
